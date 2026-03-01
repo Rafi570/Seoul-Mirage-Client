@@ -1,271 +1,556 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Raleway:wght@500;600;700&family=Inter:wght@400;500;600&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Raleway:wght@500;600;700&family=Inter:wght@400;500;600&display=swap");
 
 :root {
-    /* Colors */
-    --section-title-color: #C7A18A;
-    --black: #000000;
-    --white: #FFFFFF;
-    --gray-text: #666666;
-    
-    /* Font Families */
-    --font-main: 'Inter', sans-serif;
-    --font-raleway: 'Raleway', sans-serif;
-    --font-heading: 'Playfair Display', serif;
+  /* Colors */
+  --section-title-color: #c7a18a;
+  --black: #000000;
+  --white: #ffffff;
+  --gray-text: #666666;
+
+  /* Font Families */
+  --font-main: "Inter", sans-serif;
+  --font-raleway: "Raleway", sans-serif;
+  --font-heading: "Playfair Display", serif;
 }
 
 /* Reset & Global */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 body {
-    font-family: var(--font-main);
-    overflow-x: hidden; 
+  font-family: var(--font-main);
+  overflow-x: hidden;
 }
 
 .container {
-    width: 90%;
-    max-width: 1728px;
-    margin: 0 auto;
+  width: 90%;
+  max-width: 1728px;
+  margin: 0 auto;
 }
 
 /* --- Header Section --- */
 .header {
-    width: 100%;
-    background-color: var(--white);
-    border-bottom: 1px solid #f0f0f0;
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-    padding: 15px 0;
-   
-    max-width: 1728px; 
-    margin: 0 auto;
+  width: 100%;
+  background-color: var(--white);
+  border-bottom: 1px solid #f0f0f0;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  padding: 15px 0;
+
+  max-width: 1728px;
+  margin: 0 auto;
 }
 
 .navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .logo img {
-    height: 35px; 
-    width: auto;
+  height: 35px;
+  width: auto;
 }
 
 .nav-menu ul {
-    display: flex;
-    list-style: none;
-    gap: 32px;
+  display: flex;
+  list-style: none;
+  gap: 32px;
 }
 
 .nav-menu ul li a {
-    text-decoration: none;
-    color: var(--black);
-    transition: 0.3s ease;
-    display: flex;
-    align-items: center;
-    gap: 5px;
+  text-decoration: none;
+  color: var(--black);
+  transition: 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 5px;
 }
 
 .nav-menu ul li a:hover {
-    color: var(--section-title-color);
+  color: var(--section-title-color);
 }
 
 .nav-icons {
-    display: flex;
-    align-items: center;
-    gap: 20px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
 }
 
 .nav-icons a {
-    color: var(--black);
-    font-size: 20px;
-    text-decoration: none;
-    transition: 0.3s;
+  color: var(--black);
+  font-size: 20px;
+  text-decoration: none;
+  transition: 0.3s;
 }
 
 .cart-icon {
-    position: relative;
+  position: relative;
 }
 
 .cart-badge {
-    position: absolute;
-    top: -8px;
-    right: -10px;
-    background: var(--black);
-    color: var(--white);
-    font-size: 10px;
-    padding: 2px 6px;
-    border-radius: 50%;
-    font-weight: 700;
+  position: absolute;
+  top: -8px;
+  right: -10px;
+  background: var(--black);
+  color: var(--white);
+  font-size: 10px;
+  padding: 2px 6px;
+  border-radius: 50%;
+  font-weight: 700;
 }
 
 .mobile-toggle {
-    display: none;
-    background: none;
-    border: none;
-    font-size: 22px;
-    cursor: pointer;
+  display: none;
+  background: none;
+  border: none;
+  font-size: 22px;
+  cursor: pointer;
 }
 
 /* --- Banner Section --- */
 
 /* --- Banner Section Updated (80vh with Full Image Visibility) --- */
 .banner {
-    /* Height and Width constraints from your specs */
-    width: 100%;
-    height: 70vh;          /* Height 80% of screen */
-    max-height: 997px;     /* Maximum height limit */
-    max-width: 1728px;     /* Maximum width limit */
-    margin: 0 auto;        /* Center the banner if screen is wider than 1728px */
-    
-    /* Background Image setup */
-    background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), 
-                url('../assets/banner.png') no-repeat;
-    
-    /* Image fitting logic - taile matha ba nich katbe na */
-    background-size: cover; 
-    background-position: center 20%; 
-    
-    /* Content Alignment */
-    display: flex;
-    align-items: center;
-    position: relative;
-    overflow: hidden;      /* Extra image jeno baire na jay */
+  /* Height and Width constraints from your specs */
+  width: 100%;
+  height: 70vh; /* Height 80% of screen */
+  max-height: 997px; /* Maximum height limit */
+  max-width: 1728px; /* Maximum width limit */
+  margin: 0 auto; /* Center the banner if screen is wider than 1728px */
+
+  /* Background Image setup */
+  background:
+    linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),
+    url("../assets/banner.png") no-repeat;
+
+  /* Image fitting logic - taile matha ba nich katbe na */
+  background-size: cover;
+  background-position: center 20%;
+
+  /* Content Alignment */
+  display: flex;
+  align-items: center;
+  position: relative;
+  overflow: hidden; /* Extra image jeno baire na jay */
 }
 /* Jodi image-ta ekhono kete jay, tobe niche-r property-ta try koro */
 /* background-size: contain; 
    background-color: #f4f4f4; (background color jate khali jayga na dekhay) */
 
 .banner-title {
-    color: var(--white);
-    font-weight: 800;
-    font-size: clamp(36px, 8vw, 60px);
-    line-height: 1.1;
-    max-width: 650px;
+  color: var(--white);
+  font-weight: 800;
+  font-size: clamp(36px, 8vw, 60px);
+  line-height: 1.1;
+  max-width: 650px;
 }
 
 .banner-desc {
-    color: var(--white) !important; /* Explicitly White */
-    margin: 20px 0 32px 0;
-    font-size: 18px;
-    font-weight: 500;
-    max-width: 500px;
-    line-height: 140%;
+  color: var(--white) !important; /* Explicitly White */
+  margin: 20px 0 32px 0;
+  font-size: 18px;
+  font-weight: 500;
+  max-width: 500px;
+  line-height: 140%;
 }
 
 .banner-btns {
-    display: flex;
-    gap: 16px;
+  display: flex;
+  gap: 16px;
 }
 
 /* --- Reusable Buttons & Typography --- */
 .btn-primary {
-    width: 134px;
-    height: 51px;
-    border-radius: 100px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    background-color: var(--white);
-    color: var(--black);
-    border: 1px solid var(--white);
-    font-family: var(--font-main);
-    font-weight: 600;
-    font-size: 14px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    text-decoration: none;
+  width: 134px;
+  height: 51px;
+  border-radius: 100px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background-color: var(--white);
+  color: var(--black);
+  border: 1px solid var(--white);
+  font-family: var(--font-main);
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
 }
 
 .btn-primary:hover {
-    background-color: var(--black);
-    color: var(--white);
-    border-color: var(--black);
+  background-color: var(--black);
+  color: var(--white);
+  border-color: var(--black);
 }
 
 .btn-outline {
-    width: 134px;
-    height: 51px;
-    border-radius: 100px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    border: 1px solid var(--white);
-    color: var(--white);
-    text-decoration: none;
-    font-family: var(--font-main);
-    font-weight: 500;
-    transition: 0.3s;
+  width: 134px;
+  height: 51px;
+  border-radius: 100px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--white);
+  color: var(--white);
+  text-decoration: none;
+  font-family: var(--font-main);
+  font-weight: 500;
+  transition: 0.3s;
 }
 
 .btn-outline:hover {
-    background: var(--white);
-    color: var(--black);
+  background: var(--white);
+  color: var(--black);
 }
 
 .section-title {
-    color: var(--section-title-color);
-    font-weight: 700;
-    font-size: clamp(28px, 5vw, 40px);
-    text-align: center;
-    margin: 40px 0;
+  color: var(--section-title-color);
+  font-weight: 700;
+  font-size: clamp(28px, 5vw, 40px);
+  text-align: center;
+  margin: 40px 0;
 }
 
 .product-title {
-    color: var(--black);
-    font-weight: 600;
-    font-size: 20px;
+  color: var(--black);
+  font-weight: 600;
+  font-size: 20px;
 }
 
 .product-sub-title {
-    font-family: var(--font-raleway);
-    font-weight: 500;
-    font-size: 16px;
+  font-family: var(--font-raleway);
+  font-weight: 500;
+  font-size: 16px;
 }
 
 .product-price {
-    font-family: var(--font-raleway);
-    font-weight: 700;
-    font-size: clamp(24px, 4vw, 40px);
+  font-family: var(--font-raleway);
+  font-weight: 700;
+  font-size: clamp(24px, 4vw, 40px);
 }
 
 /* --- Responsive Helpers --- */
 .grid-container {
-    display: grid;
-    gap: 20px;
-    grid-template-columns: repeat(4, 1fr);
+  display: grid;
+  gap: 20px;
+  grid-template-columns: repeat(4, 1fr);
 }
 
 @media (max-width: 992px) {
-    .nav-menu { display: none; }
-    .mobile-toggle { display: block; }
-    
-    .nav-menu.active {
-        display: block;
-        position: absolute;
-        top: 70px;
-        left: 0;
-        width: 100%;
-        background: var(--white);
-        padding: 20px;
-        box-shadow: 0 10px 15px rgba(0,0,0,0.1);
-    }
-    .nav-menu.active ul { flex-direction: column; gap: 20px; }
+  .nav-menu {
+    display: none;
+  }
+  .mobile-toggle {
+    display: block;
+  }
+
+  .nav-menu.active {
+    display: block;
+    position: absolute;
+    top: 70px;
+    left: 0;
+    width: 100%;
+    background: var(--white);
+    padding: 20px;
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+  }
+  .nav-menu.active ul {
+    flex-direction: column;
+    gap: 20px;
+  }
+}
+/* Philosophy Section */
+/* Philosophy Section - Full Width BG, Centered Content */
+.philosophy { 
+    width: 100%;
+    padding: 100px 0; 
+    background-color: #FDF1E7; /* Exact background from your figma screenshot */
+    display: flex;
+    justify-content: center; /* Center the container inside the full-width section */
 }
 
+.philosophy-content { 
+    display: flex; 
+    align-items: center; 
+    gap: 80px; /* Text ar image-er majhe ektu clean gap */
+    /* .container theke max-width: 1728px auto peye jabe */
+}
+
+.philosophy-text { 
+    flex: 1; 
+    padding-right: 20px;
+}
+
+.philosophy-desc { 
+    margin: 24px 0 32px 0; 
+    line-height: 1.6; /* Porte subidha hobe */
+    font-size: 16px;
+    color: var(--black);
+}
+
+.philosophy-image { 
+    flex: 1; 
+    display: flex;
+    justify-content: flex-end; /* Image-ke dan dike push korbe */
+}
+
+.philosophy-image img { 
+    width: 100%; 
+    max-width: 700px; /* Boro screen-e image jate khub boro na hoy */
+    height: auto;
+    display: block;
+    object-fit: cover;
+}
+
+
+/* Testimonials */
+.testimonials {
+  padding: 100px 0;
+}
+.testimonial-card {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  background: #f9f9f9;
+  padding: 30px;
+  border-radius: 12px;
+}
+.user-img {
+  width: 150px;
+  height: 150px;
+  border-radius: 12px;
+  object-fit: cover;
+}
+.testimonial-info {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Newsletter */
+.newsletter {
+  padding: 80px 0;
+  text-align: center;
+  border-top: 1px solid #eee;
+}
+.newsletter-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+.newsletter-form {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+  width: 100%;
+  max-width: 500px;
+}
+.email-input {
+  flex: 1;
+  padding: 15px 20px;
+  border-radius: 100px;
+  border: 1px solid #ddd;
+  outline: none;
+}
+
+/* Footer */
+.footer {
+  padding: 80px 0 30px;
+}
+.footer-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 50px;
+}
+.footer-links h4 {
+  margin-bottom: 20px;
+}
+.footer-links ul {
+  list-style: none;
+}
+.footer-links ul li {
+  margin-bottom: 10px;
+}
+.footer-links ul li a {
+  text-decoration: none;
+  transition: 0.3s;
+}
+.footer-links ul li a:hover {
+  color: var(--section-title-color);
+}
+.social-icons {
+  display: flex;
+  gap: 15px;
+  margin-top: 20px;
+  font-size: 20px;
+  cursor: pointer;
+}
+.footer-bottom {
+  margin-top: 50px;
+  padding-top: 20px;
+  border-top: 1px solid #eee;
+  text-align: center;
+}
+
+/* Responsive Footer */
 @media (max-width: 768px) {
-    .banner { height: 70vh; text-align: center; }
-    .banner-content { justify-content: center; }
-    .banner-btns { justify-content: center; }
-    .grid-container { grid-template-columns: repeat(2, 1fr); }
+  .philosophy-content {
+    flex-direction: column;
+  }
+  .footer-grid {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+  .social-icons {
+    justify-content: center;
+  }
+}
+@media (max-width: 768px) {
+  .banner {
+    height: 70vh;
+    text-align: center;
+  }
+  .banner-content {
+    justify-content: center;
+  }
+  .banner-btns {
+    justify-content: center;
+  }
+  .grid-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 @media (max-width: 480px) {
-    .grid-container { grid-template-columns: 1fr; }
+  .grid-container {
+    grid-template-columns: 1fr;
+  }
+}
+/* Philosophy Section - Full Width BG, Centered Content */
+.philosophy { 
+    width: 100%;
+    padding: 100px 0; 
+    background-color: #FDF1E7; /* Exact background from your figma screenshot */
+    display: flex;
+    justify-content: center; /* Center the container inside the full-width section */
+}
+
+.philosophy-content { 
+    display: flex; 
+    align-items: center; 
+    gap: 80px; /* Text ar image-er majhe ektu clean gap */
+    /* .container theke max-width: 1728px auto peye jabe */
+}
+
+.philosophy-text { 
+    flex: 1; 
+    padding-right: 20px;
+}
+
+.philosophy-desc { 
+    margin: 24px 0 32px 0; 
+    line-height: 1.6; /* Porte subidha hobe */
+    font-size: 16px;
+    color: var(--black);
+}
+
+.philosophy-image { 
+    flex: 1; 
+    display: flex;
+    justify-content: flex-end; /* Image-ke dan dike push korbe */
+}
+
+.philosophy-image img { 
+    width: 100%; 
+    max-width: 700px; /* Boro screen-e image jate khub boro na hoy */
+    height: auto;
+    display: block;
+    object-fit: cover;
+}
+
+/* --- Responsive Layout (Mobile & Tablet) --- */
+@media (max-width: 992px) {
+    .philosophy {
+        padding: 60px 0;
+    }
+    .philosophy-content { 
+        flex-direction: column; /* Mobile-e image upore ba niche thakbe */
+        text-align: center;
+        gap: 40px;
+    }
+    .philosophy-text {
+        padding-right: 0;
+        order: 2; /* Text-ke niche niye asha holo */
+    }
+    .philosophy-image {
+        order: 1; /* Image-ke upore kora holo */
+        justify-content: center;
+    }
+    .section-title {
+        text-align: center !important; /* Mobile-e title center kora holo */
+    }
+}
+/* --- Testimonials & Newsletter Responsive --- */
+@media (max-width: 992px) {
+  .testimonials .grid-container {
+    grid-template-columns: 1fr; /* Tablet/Mobile-e testimonial cards single column hobe */
+    gap: 30px;
+  }
+
+  .testimonial-card {
+    flex-direction: column; /* Image upore, text niche */
+    text-align: center;
+    padding: 20px;
+  }
+
+  .user-img {
+    width: 120px;
+    height: 120px;
+    margin: 0 auto;
+  }
+
+  .newsletter-form {
+    flex-direction: column; /* Input ar button ekter niche arekta */
+    gap: 15px;
+    padding: 0 20px;
+  }
+
+  .email-input {
+    width: 100%;
+  }
+
+  .newsletter-form .btn-primary {
+    width: 100% !important; /* Button full width */
+  }
+}
+
+/* --- Footer Responsive Extra --- */
+@media (max-width: 768px) {
+  .footer-grid {
+    grid-template-columns: 1fr;
+    text-align: center;
+    gap: 40px;
+  }
+
+  .footer-brand {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .social-icons {
+    justify-content: center;
+  }
+
+  .footer-links ul {
+    padding: 0;
+  }
 }

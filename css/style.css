@@ -1,0 +1,271 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Raleway:wght@500;600;700&family=Inter:wght@400;500;600&display=swap');
+
+:root {
+    /* Colors */
+    --section-title-color: #C7A18A;
+    --black: #000000;
+    --white: #FFFFFF;
+    --gray-text: #666666;
+    
+    /* Font Families */
+    --font-main: 'Inter', sans-serif;
+    --font-raleway: 'Raleway', sans-serif;
+    --font-heading: 'Playfair Display', serif;
+}
+
+/* Reset & Global */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-main);
+    overflow-x: hidden; 
+}
+
+.container {
+    width: 90%;
+    max-width: 1728px;
+    margin: 0 auto;
+}
+
+/* --- Header Section --- */
+.header {
+    width: 100%;
+    background-color: var(--white);
+    border-bottom: 1px solid #f0f0f0;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    padding: 15px 0;
+   
+    max-width: 1728px; 
+    margin: 0 auto;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo img {
+    height: 35px; 
+    width: auto;
+}
+
+.nav-menu ul {
+    display: flex;
+    list-style: none;
+    gap: 32px;
+}
+
+.nav-menu ul li a {
+    text-decoration: none;
+    color: var(--black);
+    transition: 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.nav-menu ul li a:hover {
+    color: var(--section-title-color);
+}
+
+.nav-icons {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.nav-icons a {
+    color: var(--black);
+    font-size: 20px;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.cart-icon {
+    position: relative;
+}
+
+.cart-badge {
+    position: absolute;
+    top: -8px;
+    right: -10px;
+    background: var(--black);
+    color: var(--white);
+    font-size: 10px;
+    padding: 2px 6px;
+    border-radius: 50%;
+    font-weight: 700;
+}
+
+.mobile-toggle {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 22px;
+    cursor: pointer;
+}
+
+/* --- Banner Section --- */
+
+/* --- Banner Section Updated (80vh with Full Image Visibility) --- */
+.banner {
+    /* Height and Width constraints from your specs */
+    width: 100%;
+    height: 70vh;          /* Height 80% of screen */
+    max-height: 997px;     /* Maximum height limit */
+    max-width: 1728px;     /* Maximum width limit */
+    margin: 0 auto;        /* Center the banner if screen is wider than 1728px */
+    
+    /* Background Image setup */
+    background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), 
+                url('../assets/banner.png') no-repeat;
+    
+    /* Image fitting logic - taile matha ba nich katbe na */
+    background-size: cover; 
+    background-position: center 20%; 
+    
+    /* Content Alignment */
+    display: flex;
+    align-items: center;
+    position: relative;
+    overflow: hidden;      /* Extra image jeno baire na jay */
+}
+/* Jodi image-ta ekhono kete jay, tobe niche-r property-ta try koro */
+/* background-size: contain; 
+   background-color: #f4f4f4; (background color jate khali jayga na dekhay) */
+
+.banner-title {
+    color: var(--white);
+    font-weight: 800;
+    font-size: clamp(36px, 8vw, 60px);
+    line-height: 1.1;
+    max-width: 650px;
+}
+
+.banner-desc {
+    color: var(--white) !important; /* Explicitly White */
+    margin: 20px 0 32px 0;
+    font-size: 18px;
+    font-weight: 500;
+    max-width: 500px;
+    line-height: 140%;
+}
+
+.banner-btns {
+    display: flex;
+    gap: 16px;
+}
+
+/* --- Reusable Buttons & Typography --- */
+.btn-primary {
+    width: 134px;
+    height: 51px;
+    border-radius: 100px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background-color: var(--white);
+    color: var(--black);
+    border: 1px solid var(--white);
+    font-family: var(--font-main);
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+.btn-primary:hover {
+    background-color: var(--black);
+    color: var(--white);
+    border-color: var(--black);
+}
+
+.btn-outline {
+    width: 134px;
+    height: 51px;
+    border-radius: 100px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--white);
+    color: var(--white);
+    text-decoration: none;
+    font-family: var(--font-main);
+    font-weight: 500;
+    transition: 0.3s;
+}
+
+.btn-outline:hover {
+    background: var(--white);
+    color: var(--black);
+}
+
+.section-title {
+    color: var(--section-title-color);
+    font-weight: 700;
+    font-size: clamp(28px, 5vw, 40px);
+    text-align: center;
+    margin: 40px 0;
+}
+
+.product-title {
+    color: var(--black);
+    font-weight: 600;
+    font-size: 20px;
+}
+
+.product-sub-title {
+    font-family: var(--font-raleway);
+    font-weight: 500;
+    font-size: 16px;
+}
+
+.product-price {
+    font-family: var(--font-raleway);
+    font-weight: 700;
+    font-size: clamp(24px, 4vw, 40px);
+}
+
+/* --- Responsive Helpers --- */
+.grid-container {
+    display: grid;
+    gap: 20px;
+    grid-template-columns: repeat(4, 1fr);
+}
+
+@media (max-width: 992px) {
+    .nav-menu { display: none; }
+    .mobile-toggle { display: block; }
+    
+    .nav-menu.active {
+        display: block;
+        position: absolute;
+        top: 70px;
+        left: 0;
+        width: 100%;
+        background: var(--white);
+        padding: 20px;
+        box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+    }
+    .nav-menu.active ul { flex-direction: column; gap: 20px; }
+}
+
+@media (max-width: 768px) {
+    .banner { height: 70vh; text-align: center; }
+    .banner-content { justify-content: center; }
+    .banner-btns { justify-content: center; }
+    .grid-container { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 480px) {
+    .grid-container { grid-template-columns: 1fr; }
+}

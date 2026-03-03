@@ -8,6 +8,7 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
     />
+    <link rel="shortcut icon" href="./assets/logo.png" type="image/x-icon">
     <link rel="stylesheet" href="./css/style.css" />
   </head>
   <body>
@@ -36,17 +37,23 @@
             <li><a href="#" class="product-sub-title">Contact</a></li>
           </ul>
         </nav>
-        <div class="nav-icons">
-          <a href="#"><i class="fa-solid fa-magnifying-glass"></i></a>
-          <a href="#"><i class="fa-regular fa-user"></i></a>
-          <a href="#" class="cart-icon">
-            <i class="fa-solid fa-bag-shopping"></i>
-            <span class="cart-badge">0</span>
-          </a>
-          <button class="mobile-toggle">
-            <i class="fa-solid fa-bars"></i>
-          </button>
-        </div>
+<div class="nav-icons">
+  <a href="#"><i class="fa-solid fa-magnifying-glass"></i></a>
+  
+  <div class="user-dropdown-container" style="position: relative; display: inline-block;">
+    <a href="#" id="user-menu-trigger"><i class="fa-regular fa-user"></i></a>
+    <div id="user-dropdown" class="dropdown-content">
+      </div>
+  </div>
+
+  <a href="#" class="cart-icon">
+    <i class="fa-solid fa-bag-shopping"></i>
+    <span class="cart-badge">0</span>
+  </a>
+  <button class="mobile-toggle">
+    <i class="fa-solid fa-bars"></i>
+  </button>
+</div>
       </div>
     </header>
 
@@ -72,7 +79,7 @@
       <div id="api-products-container"></div>
 
       <section class="philosophybd">
-        <div class="philosophy">
+        <div class="">
           <div class="container philosophy-content">
             <div class="philosophy-text">
               <h2

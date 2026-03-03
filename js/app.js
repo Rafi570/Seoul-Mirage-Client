@@ -32,34 +32,58 @@ async function init() {
 /**
  * 2. Navbar & Dropdown Logic
  */
+/**
+ * 2. Navbar & Dropdown Logic
+ */
 function updateNavbar() {
   const userDropdown = document.getElementById("user-dropdown");
   if (!userDropdown) return;
 
+  // LocalStorage theke user data neoa
   const user = JSON.parse(localStorage.getItem("currentUser"));
 
   if (user) {
+    // User login thakle ei menu dekhabe
     userDropdown.innerHTML = `
       <a href="#" style="padding: 12px 20px; font-weight: bold; border-bottom: 1px solid #eee;">Hi, ${user.name}</a>
       <a href="#" onclick="alert('Profile Coming Soon!')">My Account</a>
-      <a href="#" onclick="alert('Order History Coming Soon!')">Order History</a>
+      
+      <a href="#" id="order-history-btn">Order History</a>
+      
       <a href="#" id="logout-btn" style="color: red; border-top: 1px solid #eee;">Logout</a>
     `;
     
+    // Order History Button Logic
+    const orderBtn = document.getElementById("order-history-btn");
+    if (orderBtn) {
+      orderBtn.onclick = (e) => {
+        e.preventDefault();
+        // Check korche order.js er function-ti available kina
+        if (typeof showOrderHistory === "function") {
+          showOrderHistory();
+        } else {
+          console.error("Error: showOrderHistory function not found. Check if order.js is loaded before app.js");
+          alert("Order history is temporarily unavailable.");
+        }
+      };
+    }
+
+    // Logout Button Logic
     document.getElementById("logout-btn").onclick = (e) => {
       e.preventDefault();
       localStorage.removeItem("currentUser");
       localStorage.removeItem("token");
-      location.reload();
+      location.reload(); // Page reload kore login state clear kora
     };
+
   } else {
+    // User login na thakle Sign-in/Sign-up dekhabe
     userDropdown.innerHTML = `
       <a href="#" onclick="event.preventDefault(); showAuthPage('register')">Sign-up</a>
       <a href="#" onclick="event.preventDefault(); showAuthPage('login')">Sign in</a>
     `;
   }
 }
-
 // User Icon Click Trigger
 document.getElementById("user-menu-trigger").onclick = (e) => {
   e.preventDefault();
@@ -132,34 +156,83 @@ function renderHomeSections(products) {
     `;
 }
 
-/**
- * 4. Product Card Component
- */
+
+async function quickOrder(productId, productName, price) {
+    const user = JSON.parse(localStorage.getItem("currentUser"));
+
+    if (!user) {
+        alert("Please login first to place an order!");
+        showAuthPage('login');
+        return;
+    }
+
+    // ডাটা টাইপ নিশ্চিত করা (Number এ কনভার্ট করা)
+    const finalPrice = Number(price);
+
+    const orderPayload = {
+        userEmail: user.email,
+        totalAmount: finalPrice,
+        items: [{ 
+            id: productId, 
+            name: productName, 
+            price: finalPrice, 
+            qty: 1 
+        }],
+        shippingAddress: {
+            name: user.name,
+            email: user.email,
+            phone: "Not Provided",
+            address: "Quick Order",
+            city: "Pending",
+            state: "Pending",
+            postCode: "0000"
+        }
+    };
+
+    try {
+        const response = await fetch("http://localhost:5001/api/orders/checkout", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(orderPayload)
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+            alert(`Order placed successfully for ${productName}!`);
+        } else {
+            alert("Failed: " + (result.message || "Unknown error"));
+        }
+    } catch (error) {
+        console.error("Order Error:", error);
+        alert("Server error! Backend is not responding.");
+    }
+}
+
 function productCard(product) {
+  // প্রোডাক্টের নামের সিঙ্গel কোটেশন হ্যান্ডেল করা
+  const safeName = product.name.replace(/'/g, "\\'");
+
   return `
-        <div class="product-item" onclick="showProductDetails('${product._id}')" style="width: 100%;  cursor: pointer;">
-            <div class="product-img-container" style="width: 100%; height: 347px; background: #F6F6F6; border-radius: 4px; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center;">
-                <img src="${product.mainImage}" alt="${product.name}" style="width: 100%; height: 100%; object-fit: cover; transition: 0.5s ease;">
-                <button class="add-to-cart-btn" onclick="event.stopPropagation(); alert('Added to cart!')">
-                    <i class="fa-solid fa-bag-shopping"></i> Add to Cart
+        <div class="product-item">
+            <div class="product-img-container" onclick="showProductDetails('${product._id}')">
+                <img src="${product.mainImage}" alt="${product.name}">
+                <button class="add-to-cart-btn" onclick="event.stopPropagation(); quickOrder('${product._id}', '${safeName}', ${product.price})">
+                    <i class="fa-solid fa-bag-shopping"></i> Order Now
                 </button>
             </div>
-            
-            <div style="padding: 24px 0;">
-                <p style="color: #666; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px;">${product.category || "Skincare"}</p>
-                <h4 style="font-family: 'Raleway', sans-serif; font-size: 20px; font-weight: 600; color: #111; margin-bottom: 14px; line-height: 1.3;">${product.name}</h4>
-                <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
-                    <span style="font-size: 28px; font-weight: 800; color: #000;">$${product.price}</span>
-                    ${product.oldPrice ? `<span style="font-size: 18px; color: #BBBBBB; text-decoration: line-through;">$${product.oldPrice}</span>` : ""}
+            <div style="padding: 20px 0;">
+                <p style="color: #888; font-size: 12px; text-transform: uppercase;">${product.category || "Serums"}</p>
+                <h4 style="font-size: 18px; font-weight: 600;">${product.name}</h4>
+                <div style="display: flex; align-items: center; gap: 12px;">
+                    <span style="font-size: 24px; font-weight: 800;">$${product.price}</span>
                 </div>
             </div>
         </div>
     `;
 }
 
-/**
- * 5. Product Details Logic (Original Design Restored)
- */
+
 async function showProductDetails(id) {
   homeSiteContent.style.display = "none";
   window.scrollTo(0, 0);
@@ -171,6 +244,9 @@ async function showProductDetails(id) {
     const product = products.find((p) => p._id === id);
 
     if (!product) return;
+
+    // Name handle korar jonno (single quote handle)
+    const safeName = product.name.replace(/'/g, "\\'");
 
     mainContent.innerHTML = `
             <div class="container" style="padding: 80px 0; display: flex; gap: 60px; align-items: flex-start; max-width: 1440px;">
@@ -190,9 +266,6 @@ async function showProductDetails(id) {
                     </div>
                     <div style="flex: 1; position: relative; background: #F9F9F9; border-radius: 4px; overflow: hidden; height: 600px;">
                         <img id="zoomImg" src="${product.mainImage}" style="width: 100%; height: 100%; object-fit: cover;">
-                        <div style="position: absolute; bottom: 20px; right: 20px; background: #fff; padding: 8px; border-radius: 50%; box-shadow: 0 2px 10px rgba(0,0,0,0.1); cursor: pointer;">
-                            <i class="fa-solid fa-magnifying-glass-plus"></i>
-                        </div>
                     </div>
                 </div>
 
@@ -208,43 +281,26 @@ async function showProductDetails(id) {
                         <span style="font-size: 40px; font-weight: 700; color: #000;">$${product.price}</span>
                         ${product.oldPrice ? `<span style="font-size: 18px; color: #999; text-decoration: line-through; margin-top: 8px;">$${product.oldPrice}</span>` : ""}
                     </div>
-                    <p style="color: #666; font-size: 14px; margin-bottom: 32px;">🏷️ Save 50% right now</p>
 
                     <div style="margin-bottom: 30px;">
                         <h4 style="font-size: 18px; font-weight: 700; margin-bottom: 15px;">Details</h4>
                         <p style="font-size: 15px; font-weight: 600; margin-bottom: 20px;">${product.description}</p>
-                        
-                        <div style="margin-bottom: 20px;">
-                            <p style="font-weight: 800; font-size: 13px; text-transform: uppercase; margin-bottom: 8px;">STRAIGHT UP:</p>
-                            <p style="font-size: 14px; color: #444; line-height: 1.6;">${product.details || "Lorem ipsum dolor sit amet consectetur. Augue dui sed sit tristique elementum."}</p>
-                        </div>
-
-                        <div style="margin-bottom: 20px;">
-                            <p style="font-weight: 800; font-size: 13px; text-transform: uppercase; margin-bottom: 10px;">THE LOWDOWN:</p>
-                            <ul style="font-size: 14px; color: #444; line-height: 1.8; padding-left: 18px;">
-                                <li>Helps improve the look of pores in just 1 week.</li>
-                                <li>Brightens and evens skin tone with every sleep.</li>
-                                <li>Kalahari Melon and Baobab Oils infuse deep, all-night hydration.</li>
-                            </ul>
-                        </div>
                     </div>
 
                     <div style="display: flex; gap: 15px; align-items: center; margin-top: 40px;">
                         <div style="display: flex; align-items: center; border: 1px solid #DDD; border-radius: 4px; height: 50px;">
                             <button style="padding: 0 15px; border:none; background:none; font-size:20px; cursor:pointer;">-</button>
-                            <input type="text" value="1" style="width: 40px; text-align: center; border: none; font-weight: 700; font-size: 16px;">
+                            <input type="text" value="1" readonly style="width: 40px; text-align: center; border: none; font-weight: 700; font-size: 16px;">
                             <button style="padding: 0 15px; border:none; background:none; font-size:20px; cursor:pointer;">+</button>
                         </div>
-                        <button onclick="alert('Added to Cart!')" style="flex: 1; height: 50px; background: #000; color: #fff; font-size: 16px; font-weight: 600; border: none; border-radius: 4px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px;">
-                            Add To Cart <i class="fa-solid fa-arrow-right"></i>
-                        </button>
-                        <button style="width: 50px; height: 50px; border: 1px solid #DDD; border-radius: 4px; background: #fff; cursor: pointer;">
-                            <i class="fa-regular fa-heart"></i>
+
+                        <button onclick="quickOrder('${product._id}', '${safeName}', ${product.price})" style="flex: 1; height: 50px; background: #000; color: #fff; font-size: 16px; font-weight: 600; border: none; border-radius: 4px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px;">
+                            Order Now <i class="fa-solid fa-arrow-right"></i>
                         </button>
                     </div>
 
                     <button onclick="location.reload()" style="margin-top: 30px; background: none; border: none; color: #888; text-decoration: underline; cursor: pointer; font-size: 14px;">
-                        ← Back to collection
+                        ← Back to home
                     </button>
                 </div>
             </div>
@@ -329,5 +385,18 @@ document.querySelector(".logo a").onclick = (e) => {
   e.preventDefault();
   init();
 };
+const navLinks = document.querySelectorAll('nav a, .nav-links a');
+navLinks.forEach(link => {
+  if (link.textContent.trim() === 'Collections') {
+    link.onclick = (e) => {
+      e.preventDefault();
+      // products.js ফাইলে থাকা ফাংশনটি কল হবে
+      renderCollectionsPage(1); 
+    };
+  }
+});
 
-init();
+// ৩. Skincare লিঙ্কে ক্লিক করলে (যদি চান)
+// এখানেও আপনি একই ভাবে renderCollectionsPage(1) দিতে পারেন
+
+init(); // মেইন ইনিশিয়ালাইজেশন

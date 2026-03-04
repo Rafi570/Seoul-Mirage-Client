@@ -1,0 +1,374 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Seoul Mirage | Admin Dashboard</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    />
+    <link rel="stylesheet" href="css/dashboard.css" />
+  </head>
+  <body>
+    <div class="dashboard-wrapper">
+      <aside class="sidebar">
+        <div class="logo-area">
+          <img src="./assets/logo.png" alt="Logo" />
+        </div>
+        <nav id="admin-nav">
+          <a href="#" class="active" data-target="dashboard-overview">
+            <i class="fa-solid fa-house"></i> Overview
+          </a>
+
+          <a href="#" data-target="products-section">
+            <i class="fa-solid fa-box"></i> Products
+          </a>
+
+          <a href="#" data-target="orders-section">
+            <i class="fa-solid fa-cart-shopping"></i> Orders
+          </a>
+
+          <a href="#" data-target="customers-section">
+            <i class="fa-solid fa-users"></i> Customers
+          </a>
+
+          <a href="#" data-target="settings-section">
+            <i class="fa-solid fa-gear"></i> Settings
+          </a>
+        </nav>
+        <button class="logout-btn" onclick="handleLogout()">Logout</button>
+      </aside>
+
+      <main class="main-content">
+        <header class="dashboard-header">
+          <h2 id="page-title">Dashboard</h2>
+          <div class="admin-profile">
+            <i class="fa-solid fa-circle-user"></i>
+            <span>Admin Name</span>
+          </div>
+        </header>
+
+        <div id="dashboard-overview" class="admin-section">
+          <div class="stats-grid">
+            <div class="stat-card">
+              <span>Total Revenue</span>
+              <h3>$28,450</h3>
+            </div>
+            <div class="stat-card">
+              <span>Orders</span>
+              <h3>312</h3>
+            </div>
+            <div class="stat-card">
+              <span>Customers</span>
+              <h3>$28,450</h3>
+            </div>
+            <div class="stat-card">
+              <span>Avg. Order Value</span>
+              <h3>$91.19</h3>
+            </div>
+          </div>
+
+          <div class="charts-row">
+            <div class="chart-box">
+              <h4>Sales Overview</h4>
+              <div id="salesChart"></div>
+            </div>
+            <div class="chart-box">
+              <h4>Revenue Trend</h4>
+              <div id="trendChart"></div>
+            </div>
+            <div class="chart-box">
+              <h4>Sales by Category</h4>
+              <div id="categoryChart"></div>
+            </div>
+          </div>
+
+          <div class="tables-row">
+            <div class="recent-orders">
+              <h4>Recent Orders</h4>
+              <div id="order-list-admin"></div>
+              <button class="view-all">View All</button>
+            </div>
+          </div>
+        </div>
+
+        <div id="products-section" class="admin-section" style="display: none">
+          <div
+            class="header-row"
+            style="
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              margin-bottom: 25px;
+            "
+          >
+            <h3>Product Catalog</h3>
+            <button
+              class="add-btn"
+              onclick="openProductModal()"
+              style="
+                background: #000;
+                color: #fff;
+                padding: 12px 24px;
+                border-radius: 8px;
+                border: none;
+                cursor: pointer;
+              "
+            >
+              <i class="fa-solid fa-plus"></i> Add Product
+            </button>
+          </div>
+
+          <div class="stats-grid">
+            <div class="stat-card">
+              <span>Total Products</span>
+              <h3 id="total-prod-count">0</h3>
+            </div>
+            <div class="stat-card">
+              <span>Out of Stock</span>
+              <h3>1</h3>
+            </div>
+          </div>
+
+          <div
+            class="table-container"
+            style="background: #fff; padding: 25px; border-radius: 12px"
+          >
+            <table style="width: 100%; border-collapse: collapse">
+              <thead>
+                <tr style="text-align: left; border-bottom: 1px solid #eee">
+                  <th style="padding: 15px">ID</th>
+                  <th>Thumbnail</th>
+                  <th>Name</th>
+                  <th>Category</th>
+                  <th>Price</th>
+                  <th>Stock</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="product-table-body"></tbody>
+            </table>
+          </div>
+        </div>
+        <div id="customers-section" class="admin-section" style="display: none">
+          <div class="header-row" style="margin-bottom: 25px">
+            <h3>Manage Customers</h3>
+          </div>
+
+          <div class="stats-grid">
+            <div class="stat-card">
+              <span>Total Customers</span>
+              <h3 id="total-user-count">0</h3>
+            </div>
+            <div class="stat-card">
+              <span>Active Admins</span>
+              <h3 id="admin-count">0</h3>
+            </div>
+          </div>
+
+          <div
+            class="table-container"
+            style="
+              background: #fff;
+              padding: 25px;
+              border-radius: 12px;
+              box-shadow: var(--card-shadow);
+            "
+          >
+            <table style="width: 100%; border-collapse: collapse">
+              <thead>
+                <tr style="text-align: left; border-bottom: 1px solid #eee">
+                  <th style="padding: 15px">Name</th>
+                  <th>Email</th>
+                  <th>Join Date</th>
+                  <th>Current Role</th>
+                  <th>Change Role</th>
+                </tr>
+              </thead>
+              <tbody id="user-table-body"></tbody>
+            </table>
+          </div>
+        </div>
+        <div id="orders-section" class="admin-section" style="display: none">
+          <div class="header-row" style="margin-bottom: 25px">
+            <h3>Manage Orders</h3>
+          </div>
+
+          <div class="stats-grid" style="margin-bottom: 25px">
+            <div class="stat-card">
+              <span>Total Orders</span>
+              <h3 id="order-total-count">0</h3>
+            </div>
+            <div class="stat-card" style="border-left: 4px solid #2ecc71">
+              <span>Paid Orders</span>
+              <h3 id="order-paid-count" style="color: #2ecc71">0</h3>
+            </div>
+            <div class="stat-card" style="border-left: 4px solid #e74c3c">
+              <span>Unpaid Orders</span>
+              <h3 id="order-unpaid-count" style="color: #e74c3c">0</h3>
+            </div>
+          </div>
+
+          <div
+            class="table-container"
+            style="
+              background: #fff;
+              padding: 25px;
+              border-radius: 12px;
+              box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            "
+          >
+            <table style="width: 100%; border-collapse: collapse">
+              <thead>
+                <tr style="text-align: left; border-bottom: 1px solid #eee">
+                  <th style="padding: 15px">Order ID</th>
+                  <th>Customer Email</th>
+                  <th>Date</th>
+                  <th>Total Amount</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="all-orders-table-body"></tbody>
+            </table>
+          </div>
+        </div>
+        <div id="settings-section" class="admin-section" style="display: none">
+  <div class="header-row" style="margin-bottom: 25px">
+    <h3>Account & Store Settings</h3>
+  </div>
+
+  <div class="settings-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px;">
+    
+    <div class="chart-box">
+      <h4 style="margin-bottom: 20px;"><i class="fa-solid fa-user-gear"></i> Admin Profile</h4>
+      <form id="profile-settings-form">
+        <div style="margin-bottom: 15px;">
+          <label style="display: block; margin-bottom: 5px; font-size: 13px; color: #666;">Full Name</label>
+          <input type="text" value="Hasan Rafi Ahmed" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px;">
+        </div>
+        <div style="margin-bottom: 15px;">
+          <label style="display: block; margin-bottom: 5px; font-size: 13px; color: #666;">Email Address</label>
+          <input type="email" value="admin@seoulmirage.com" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px;" disabled>
+          <small style="color: gray;">Email cannot be changed for security.</small>
+        </div>
+        <button type="button" class="action-btn" style="width: 100%;">Update Profile</button>
+      </form>
+    </div>
+
+    <div class="chart-box">
+      <h4 style="margin-bottom: 20px;"><i class="fa-solid fa-lock"></i> Change Password</h4>
+      <form id="password-settings-form">
+        <div style="margin-bottom: 15px;">
+          <label style="display: block; margin-bottom: 5px; font-size: 13px; color: #666;">Current Password</label>
+          <input type="password" placeholder="••••••••" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px;">
+        </div>
+        <div style="margin-bottom: 15px;">
+          <label style="display: block; margin-bottom: 5px; font-size: 13px; color: #666;">New Password</label>
+          <input type="password" placeholder="Enter new password" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px;">
+        </div>
+        <button type="button" class="action-btn" style="width: 100%; background: #333;">Update Password</button>
+      </form>
+    </div>
+
+    <div class="chart-box" style="grid-column: span 2;">
+      <h4 style="margin-bottom: 20px;"><i class="fa-solid fa-store"></i> Store Preferences</h4>
+      <div style="display: flex; gap: 40px; align-items: center;">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <input type="checkbox" id="maintenance-mode" style="width: 18px; height: 18px;">
+          <label for="maintenance-mode">Enable Maintenance Mode</label>
+        </div>
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <input type="checkbox" id="order-notif" checked style="width: 18px; height: 18px;">
+          <label for="order-notif">Email Notifications for New Orders</label>
+        </div>
+      </div>
+      <button type="button" class="action-btn" style="margin-top: 25px; padding: 10px 40px;">Save All Settings</button>
+    </div>
+
+  </div>
+</div>
+      </main>
+    </div>
+
+    <div id="product-modal" class="modal">
+      <div class="modal-content">
+        <div
+          style="
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+          "
+        >
+          <h3>Add New Product</h3>
+          <span
+            onclick="closeProductModal()"
+            style="cursor: pointer; font-size: 24px"
+            >&times;</span
+          >
+        </div>
+        <form id="add-product-form">
+          <label>Product Name</label>
+          <input
+            type="text"
+            name="name"
+            required
+            style="width: 100%; padding: 10px; margin-bottom: 15px"
+          />
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px">
+            <div>
+              <label>Price</label
+              ><input
+                type="number"
+                name="price"
+                required
+                style="width: 100%; padding: 10px"
+              />
+            </div>
+            <div>
+              <label>Stock</label
+              ><input
+                type="number"
+                name="stock"
+                required
+                style="width: 100%; padding: 10px"
+              />
+            </div>
+          </div>
+
+          <label style="display: block; margin-top: 15px">Main Image URL</label>
+          <input
+            type="text"
+            name="mainImage"
+            required
+            style="width: 100%; padding: 10px"
+          />
+
+          <label style="display: block; margin-top: 15px">Category</label>
+          <select name="category" style="width: 100%; padding: 10px">
+            <option value="Skincare">Skincare</option>
+            <option value="Essences">Essences</option>
+          </select>
+
+          <button
+            type="submit"
+            style="
+              width: 100%;
+              background: #000;
+              color: #fff;
+              padding: 15px;
+              border: none;
+              margin-top: 20px;
+              cursor: pointer;
+            "
+          >
+            Save Product
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <script src="js/dashboard.js"></script>
+  </body>
+</html>

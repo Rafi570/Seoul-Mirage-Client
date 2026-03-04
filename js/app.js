@@ -52,7 +52,7 @@ function updateNavbar() {
       
       <a href="#" id="logout-btn" style="color: red; border-top: 1px solid #eee;">Logout</a>
     `;
-    
+
     // Order History Button Logic
     const orderBtn = document.getElementById("order-history-btn");
     if (orderBtn) {
@@ -62,7 +62,9 @@ function updateNavbar() {
         if (typeof showOrderHistory === "function") {
           showOrderHistory();
         } else {
-          console.error("Error: showOrderHistory function not found. Check if order.js is loaded before app.js");
+          console.error(
+            "Error: showOrderHistory function not found. Check if order.js is loaded before app.js",
+          );
           alert("Order history is temporarily unavailable.");
         }
       };
@@ -75,7 +77,6 @@ function updateNavbar() {
       localStorage.removeItem("token");
       location.reload(); // Page reload kore login state clear kora
     };
-
   } else {
     // User login na thakle Sign-in/Sign-up dekhabe
     userDropdown.innerHTML = `
@@ -92,9 +93,9 @@ document.getElementById("user-menu-trigger").onclick = (e) => {
 };
 
 // Close dropdown on outside click
-window.addEventListener('click', (e) => {
+window.addEventListener("click", (e) => {
   const dropdown = document.getElementById("user-dropdown");
-  if (dropdown && !e.target.closest('.user-dropdown-container')) {
+  if (dropdown && !e.target.closest(".user-dropdown-container")) {
     dropdown.classList.remove("show-dropdown");
   }
 });
@@ -115,7 +116,10 @@ function renderHomeSections(products) {
                     </a>
                 </div>
                 <div class="grid-container">
-                    ${products.slice(0, 4).map((product) => productCard(product)).join("")}
+                    ${products
+                      .slice(0, 4)
+                      .map((product) => productCard(product))
+                      .join("")}
                 </div>
             </div>
         </section>
@@ -149,64 +153,68 @@ function renderHomeSections(products) {
                     </a>
                 </div>
                 <div class="grid-container">
-                    ${products.slice(4, 8).map((product) => productCard(product)).join("")}
+                    ${products
+                      .slice(4, 8)
+                      .map((product) => productCard(product))
+                      .join("")}
                 </div>
             </div>
         </section>
     `;
 }
 
-
 async function quickOrder(productId, productName, price) {
-    const user = JSON.parse(localStorage.getItem("currentUser"));
+  const user = JSON.parse(localStorage.getItem("currentUser"));
 
-    if (!user) {
-        alert("Please login first to place an order!");
-        showAuthPage('login');
-        return;
+  if (!user) {
+    alert("Please login first to place an order!");
+    showAuthPage("login");
+    return;
+  }
+
+  // ডাটা টাইপ নিশ্চিত করা (Number এ কনভার্ট করা)
+  const finalPrice = Number(price);
+
+  const orderPayload = {
+    userEmail: user.email,
+    totalAmount: finalPrice,
+    items: [
+      {
+        id: productId,
+        name: productName,
+        price: finalPrice,
+        qty: 1,
+      },
+    ],
+    shippingAddress: {
+      name: user.name,
+      email: user.email,
+      phone: "Not Provided",
+      address: "Quick Order",
+      city: "Pending",
+      state: "Pending",
+      postCode: "0000",
+    },
+  };
+
+  try {
+    const response = await fetch("http://localhost:5001/api/orders/checkout", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(orderPayload),
+    });
+
+    const result = await response.json();
+
+    if (response.ok) {
+      alert(`Order placed successfully for ${productName}!`);
+    } else {
+      alert("Failed: " + (result.message || "Unknown error"));
     }
-
-    // ডাটা টাইপ নিশ্চিত করা (Number এ কনভার্ট করা)
-    const finalPrice = Number(price);
-
-    const orderPayload = {
-        userEmail: user.email,
-        totalAmount: finalPrice,
-        items: [{ 
-            id: productId, 
-            name: productName, 
-            price: finalPrice, 
-            qty: 1 
-        }],
-        shippingAddress: {
-            name: user.name,
-            email: user.email,
-            phone: "Not Provided",
-            address: "Quick Order",
-            city: "Pending",
-            state: "Pending",
-            postCode: "0000"
-        }
-    };
-
-    try {
-        const response = await fetch("http://localhost:5001/api/orders/checkout", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(orderPayload)
-        });
-
-        const result = await response.json();
-
-        if (response.ok) {
-            alert(`Order placed successfully for ${productName}!`);
-        } else {
-            alert("Failed: " + (result.message || "Unknown error"));
-        }
-    } catch (error) {
-        console.error("Order Error:", error);
-        alert("Server error! Backend is not responding.");
-    }
+  } catch (error) {
+    console.error("Order Error:", error);
+    alert("Server error! Backend is not responding.");
+  }
 }
 
 function productCard(product) {
@@ -231,7 +239,6 @@ function productCard(product) {
         </div>
     `;
 }
-
 
 async function showProductDetails(id) {
   homeSiteContent.style.display = "none";
@@ -346,32 +353,45 @@ function showAuthPage(mode = "login") {
     const email = document.getElementById("auth-email").value;
     const password = document.getElementById("auth-pass").value;
     const endpoint = isLogin ? "login" : "register";
-    const payload = isLogin ? { email, password } : { name: document.getElementById("reg-name").value, email, password };
+    const payload = isLogin
+      ? { email, password }
+      : { name: document.getElementById("reg-name").value, email, password };
 
     try {
-      const response = await fetch(`http://localhost:5001/api/auth/${endpoint}`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
+      const response = await fetch(
+        `http://localhost:5001/api/auth/${endpoint}`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        },
+      );
       const result = await response.json();
+
       if (response.ok) {
         if (!isLogin) {
           alert("Registration successful! Please sign in.");
           showAuthPage("login");
         } else {
+          // ১. ডাটা সেভ করা
           localStorage.setItem("token", result.token);
           localStorage.setItem("currentUser", JSON.stringify(result.user));
-          location.reload();
+
+          // ২. রোল চেক করে রিডাইরেক্ট করা
+          if (result.user.role === "admin") {
+            window.location.href = "dashboard.html";
+          } else {
+            location.reload();
+          }
         }
       } else {
         alert(result.message);
       }
     } catch (err) {
+      console.error("Auth Error:", err);
       alert("Server error!");
     }
   };
-
   document.querySelector(".eye-toggle").onclick = function () {
     const passInput = document.getElementById("auth-pass");
     passInput.type = passInput.type === "password" ? "text" : "password";
@@ -385,13 +405,13 @@ document.querySelector(".logo a").onclick = (e) => {
   e.preventDefault();
   init();
 };
-const navLinks = document.querySelectorAll('nav a, .nav-links a');
-navLinks.forEach(link => {
-  if (link.textContent.trim() === 'Collections') {
+const navLinks = document.querySelectorAll("nav a, .nav-links a");
+navLinks.forEach((link) => {
+  if (link.textContent.trim() === "Collections") {
     link.onclick = (e) => {
       e.preventDefault();
       // products.js ফাইলে থাকা ফাংশনটি কল হবে
-      renderCollectionsPage(1); 
+      renderCollectionsPage(1);
     };
   }
 });
